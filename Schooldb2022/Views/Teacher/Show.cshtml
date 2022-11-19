@@ -1,0 +1,15 @@
+﻿
+@model Schooldb2022.Models.Teacher
+@{
+    ViewBag.Title = "Show";
+}
+
+<a class="navlink" href="/Teacher/List">Back To Teachers</a>
+<div id="containershow" style="border:1px solid; padding:1em;">
+    <h2>@Model.TeacherFname @Model.TeacherLname</h2>
+    <p><strong>Employee ID: </strong>@Model.EmployeeNumber</p>
+    <p><strong>Salary: </strong>@Model.Salary</p>
+    <p><strong>Hiredate: </strong>@Model.Hiredate</p>
+    <p><strong>Course: </strong>@Model.Course</p>
+
+</div>

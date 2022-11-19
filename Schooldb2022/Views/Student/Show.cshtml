@@ -1,0 +1,18 @@
+﻿@model Schooldb2022.Models.Students
+@{
+    ViewBag.Title = "Show";
+}
+
+<a class="navlink" href="/Student/List">Back To Student</a>
+<div id="containershow" style="border:1px solid; padding:1em;">
+    <h2>@Model.StudentFname @Model.StudentLname</h2>
+    <p><strong>Student ID: </strong>@Model.StudentNumber</p>
+    <p><strong>EnrolDate: </strong>@Model.Enroldate</p>
+    <div id="course-container">
+    <p><strong>Courses:</strong></p>
+    @foreach(var courses in @Model.Courses)
+    {
+    <p>@courses </p>
+    }
+        </div>
+</div>
