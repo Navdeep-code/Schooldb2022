@@ -15,5 +15,7 @@ namespace Schooldb2022.Models
         public string StudentNumber;
         public string Enroldate;
         public List<string> Courses;
+
+        public Students() { }
     }
 }

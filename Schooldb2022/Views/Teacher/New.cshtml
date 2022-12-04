@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewBag.Title = "New";
+}
+
+<div id="containershow" style="border:1px solid; padding:1em;">
+    <nav>
+         <a class="navlink" href="/Teacher/List">Back To Teachers</a>
+    </nav>
+    <h2>New Teacher</h2>
+    
+    <form action="/Teacher/Create" method="POST">
+
+        <label style="display:block;" for="TeacherFname">First Name:</label>
+        <input type="text" id="TeacherFname" name="TeacherFname" /><span></span>
+
+        <label style="display:block;" for="TeacherFname">Last Name:</label>
+        <input type="text" id="TeacherLname" name="TeacherLname" />
+
+        <label style="display:block;" for="EmployeeNumber">Employee Number:</label>
+        <input type="text" id="EmployeeNumber" name="EmployeeNumber" />
+
+        <label style="display:block;" for="Hiredate">Hire Date:</label>
+        <input type="date" id="Hiredate" name="Hiredate" />
+
+        <label style="display:block;" for="Salary">Salary Amount:</label>
+        <input type="text" id="Salary" name="Salary" />
+
+        <input type="submit" value="Add Teacher" class="addbtn" />
+    </form>
+
+</div>
+
+<script>
+
+    window.onload = pageload;
+
+    function pageload() {
+        var fname = document.getElementById("TeacherFname"); 
+
+    }
+
+</script>

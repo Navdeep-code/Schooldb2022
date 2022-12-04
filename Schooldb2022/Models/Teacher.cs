@@ -15,5 +15,7 @@ namespace Schooldb2022.Models
         public decimal Salary;
         public string Hiredate;
         public string Course;
+
+        public Teacher() { }
     }
 }

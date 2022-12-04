@@ -111,7 +111,7 @@ namespace Schooldb2022.Controllers
 
             //Establish a new command (query) for our database
             MySqlCommand cm = con.CreateCommand();
-            cm.CommandText = "SELECT classes.classname FROM students join studentsxclasses on studentsxclasses.studentid=students.studentid join classes on classes.classid=studentsxclasses.classid where students.studentid=@studentid";
+            cm.CommandText = "SELECT classes.classname FROM students LEFT OUTER join studentsxclasses on studentsxclasses.studentid=students.studentid join classes on classes.classid=studentsxclasses.classid where students.studentid=@studentid";
             cm.Parameters.AddWithValue("@studentid",id);
             cm.Prepare();
             List<string> list = new List<string>();
@@ -146,7 +146,68 @@ namespace Schooldb2022.Controllers
             return newstudent;
             }
 
+        /// <summary>
+        /// takes the student id and deleted that student from the database
+        /// </summary>
+        /// <param name="id">Student id</param>
+        /// <example>POST : /api/StudentData/DeleteStudent/7</example>
+        [HttpPost]
+        public void DeleteStudent(int id)
+        {
+            //Create an instance of a connection
+            MySqlConnection conn = sdb.AccessDatabase();
+
+            //Open the connection between the web server and database
+            conn.Open();
+
+            //Establish a new command (query) for our database
+            MySqlCommand cmd = conn.CreateCommand();
+            cmd.CommandText = "Delete from students where studentid=@id";
+            cmd.Parameters.AddWithValue("@id", id);
+            cmd.Prepare();
+
+            cmd.ExecuteNonQuery();
+            conn.Close();
+
         }
+
+        /// <summary>
+        /// Adds an Student to the MySQL Database. Non-Deterministic.
+        /// </summary>
+        /// <param name="NewStudent">An object with fields that map to the columns of the Student's table. </param>
+        /// <example>
+        /// POST api/StudentData/AddStudent
+        /// FORM DATA / POST DATA / REQUEST BODY 
+        /// {
+        ///	"StudentFname":"Christine",
+        ///	"StudentLname":"Bittle",
+        ///	"StudentNumber":"S565",
+        ///	"entroldate":"2018-09-09"
+        /// }
+        /// </example>
+        [HttpPost]
+        public void AddStudent([FromBody] Students newstudent)
+        {
+            //Create an instance of a connection
+            MySqlConnection conn = sdb.AccessDatabase();
+
+            //Open the connection between the web server and database
+            conn.Open();
+
+            //Establish a new command (query) for our database
+            MySqlCommand cmd = conn.CreateCommand();
+            cmd.CommandText = "Insert into students (studentfname, studentlname, studentnumber, enroldate) values (@studentfname, @studentlname, @studentnumber, @enroldate)";
+            cmd.Parameters.AddWithValue("@studentfname", newstudent.StudentFname);
+            cmd.Parameters.AddWithValue("@studentlname", newstudent.StudentLname);
+            cmd.Parameters.AddWithValue("@studentnumber", newstudent.StudentNumber);
+            cmd.Parameters.AddWithValue("@enroldate", newstudent.Enroldate);
+            cmd.Prepare();
+
+            cmd.ExecuteNonQuery();
+            conn.Close();
+
+        }
+    }
     
 
     }

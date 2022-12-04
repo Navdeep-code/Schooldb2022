@@ -76,7 +76,7 @@ namespace Schooldb2022.Controllers
 
             //Establish a new command (query) for our database
             MySqlCommand cmd =conn.CreateCommand();
-            cmd.CommandText = "SELECT classes.* , concat(teachers.teacherfname,\" \",teachers.teacherlname) as teachername FROM classes join teachers on teachers.teacherid=classes.teacherid where classid=@id";
+            cmd.CommandText = "SELECT * from classes where classid=@id";
             cmd.Parameters.AddWithValue("@id", id);
             cmd.Prepare();
 
@@ -92,8 +92,7 @@ namespace Schooldb2022.Controllers
                 newclass.ClassCode = Resultset["classcode"].ToString();
                 newclass.StartDate = Resultset["startdate"].ToString();
                 newclass.FinishDate = Resultset["finishdate"].ToString();
-                newclass.Teachername = Resultset["teachername"].ToString();
-                newclass.TeacherId = Convert.ToInt32(Resultset["teacherid"]);
+   
 
               
             }
@@ -101,6 +100,67 @@ namespace Schooldb2022.Controllers
             conn.Close();
             return newclass;
 
+
+        }
+        /// <summary>
+        /// takes the class id and deleted that class from the database
+        /// </summary>
+        /// <param name="id">Class id</param>
+        /// <example>POST : /api/ClassData/DeleteClass/7</example>
+        [HttpPost]
+        public void DeleteClass(int id)
+        {
+            //Create an instance of a connection
+            MySqlConnection conn = sdb.AccessDatabase();
+
+            //Open the connection between the web server and database
+            conn.Open();
+
+            //Establish a new command (query) for our database
+            MySqlCommand cmd = conn.CreateCommand();
+            cmd.CommandText = "Delete from classes where classid=@id";
+            cmd.Parameters.AddWithValue("@id", id);
+            cmd.Prepare();
+
+            cmd.ExecuteNonQuery();
+            conn.Close();
+
+        }
+
+        /// <summary>
+        /// Adds an Class to the MySQL Database. Non-Deterministic.
+        /// </summary>
+        /// <param name="NewClass">An object with fields that map to the columns of the Class's table. </param>
+        /// <example>
+        /// POST api/ClassData/AddClass
+        /// FORM DATA / POST DATA / REQUEST BODY 
+        /// {
+        ///	"Classname":"http5001",
+        ///	"ClassCode":"Web development",
+        ///	"StartDate":"2022-08-28",
+        ///	"Finishdate":"2022-11-30"
+        /// }
+        /// </example>
+        [HttpPost]
+        public void AddClass([FromBody] Classes newclass)
+        {
+            //Create an instance of a connection
+            MySqlConnection conn = sdb.AccessDatabase();
+
+            //Open the connection between the web server and database
+            conn.Open();
+
+            //Establish a new command (query) for our database
+            MySqlCommand cmd = conn.CreateCommand();
+            cmd.CommandText = "Insert into classes (classcode, classname, startdate, finishdate) values (@classcode, @classname, @startdate, @finishdate)";
+            cmd.Parameters.AddWithValue("@classcode", newclass.ClassCode);
+            cmd.Parameters.AddWithValue("@classname", newclass.ClassName);
+            cmd.Parameters.AddWithValue("@startdate", newclass.StartDate);
+            cmd.Parameters.AddWithValue("@finishdate", newclass.FinishDate);
+            cmd.Prepare();
+
+            cmd.ExecuteNonQuery();
+            conn.Close();
 
         }
     }

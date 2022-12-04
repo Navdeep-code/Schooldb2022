@@ -14,7 +14,8 @@ namespace Schooldb2022.Models
         public string ClassName;
         public string StartDate;
         public string FinishDate;
-        public int TeacherId;
-        public string Teachername;
+     
+
+        public Classes() { }
     }
 }

@@ -4,16 +4,19 @@
 }
 
 <div id="containerlist">
+    <nav>
+        <a class="navlink" href="/Teacher/New">Add Teacher</a>
+    </nav>
     <h2>List of Teachers</h2>
     <form action="/Teacher/List" method="GET">
         <input type="text" name="Searchkey" autocomplete="off" placeholder="Jane doe" />
-        <input type="submit" value="Search"/>
+        <input type="submit" value="Search" />
 
     </form>
     @foreach (var teacher in Model)
     {
         <div class="listitem row">
-            <div class="col-md-12"><a href="/Teacher/Show/@teacher.TeacherId"> @teacher.TeacherFname@teacher.TeacherLname</a></div>
+            <div class="col-md-12"><a href="/Teacher/Show/@teacher.TeacherId"> @teacher.TeacherFname @teacher.TeacherLname</a></div>
         </div>
     }
 </div>

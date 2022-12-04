@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewBag.Title = "New";
+}
+
+<div id="containershow" style="border:1px solid; padding:1em;">
+    <nav>
+        <a class="navlink" href="/Class/List">Back To Classes</a>
+    </nav>
+    <h2>New Class</h2>
+
+    <form action="/Class/Create" method="POST">
+
+        <label style="display:block;" for="ClassCode">Class Code:</label>
+        <input type="text" id="ClassCode" name="ClassCode" />
+
+        <label style="display:block;" for="ClassName">Class Name:</label>
+        <input type="text" id="ClassName" name="ClassName" />
+
+        <label style="display:block;" for="StartDate">Start Date:</label>
+        <input type="date" id="StartDate" name="StartDate" />
+
+        <label style="display:block;" for="FinishDate">Finish Date:</label>
+        <input type="date" id="FinishDate" name="FinishDate" />
+
+        <input type="submit" value="Add Class" class="addbtn" " />
+    </form>
+
+</div>
+
+

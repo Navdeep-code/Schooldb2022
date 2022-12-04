@@ -97,7 +97,7 @@ namespace Schooldb2022.Controllers
 
             //Establish a new command (query) for our database
             MySqlCommand cmd = conn.CreateCommand();
-            cmd.CommandText = "SELECT teachers.* , classes.classname FROM teachers join classes on classes.teacherid=teachers.teacherid where teachers.teacherid=@id";
+            cmd.CommandText = "SELECT teachers.* , classes.classname FROM teachers LEFT OUTER join classes on classes.teacherid=teachers.teacherid where teachers.teacherid=@id";
             cmd.Parameters.AddWithValue("@id", id);
             cmd.Prepare();
 
@@ -128,7 +128,67 @@ namespace Schooldb2022.Controllers
             return newteacher;
 
         }
+        /// <summary>
+        /// takes the teacher id and deleted that teacher from the database
+        /// </summary>
+        /// <param name="id">Teacher id</param>
+        /// <example>POST : /api/TeacherData/DeleteTeacher/7</example>
+        [HttpPost]
+        public void DeleteTeacher(int id)
+        {
+            //Create an instance of a connection
+            MySqlConnection conn = sdb.AccessDatabase();
 
+            //Open the connection between the web server and database
+            conn.Open();
 
+            //Establish a new command (query) for our database
+            MySqlCommand cmd = conn.CreateCommand();
+            cmd.CommandText = "Delete from teachers where teacherid=@id";
+            cmd.Parameters.AddWithValue("@id", id);
+            cmd.Prepare();
+            
+            cmd.ExecuteNonQuery();
+            conn.Close();
+
+        }
+        /// <summary>
+        /// Adds an Teachers to the MySQL Database. Non-Deterministic.
+        /// </summary>
+        /// <param name="NewTeacher">An object with fields that map to the columns of the teacher's table. </param>
+        /// <example>
+        /// POST api/TeacherData/AddTeacher 
+        /// FORM DATA / POST DATA / REQUEST BODY 
+        /// {
+        ///	"TeacherFname":"Christine",
+        ///	"TeacherLname":"Bittle",
+        ///	"EmpoloyeeNumber":"T565",
+        ///	"Hiredate":"2018-09-09"
+        ///	 "Salary":"50.6"
+        /// }
+        /// </example>
+        [HttpPost]
+        public  void AddTeacher([FromBody]Teacher newteacher)
+        {
+            //Create an instance of a connection
+            MySqlConnection conn = sdb.AccessDatabase();
+
+            //Open the connection between the web server and database
+            conn.Open();
+
+            //Establish a new command (query) for our database
+            MySqlCommand cmd = conn.CreateCommand();
+            cmd.CommandText = "Insert into teachers (teacherfname, teacherlname, employeenumber, hiredate, salary) values (@teacherfname, @teacherlname, @employeenumber, @hiredate, @salary)";
+            cmd.Parameters.AddWithValue("@teacherfname", newteacher.TeacherFname);
+            cmd.Parameters.AddWithValue("@teacherlname", newteacher.TeacherLname);
+            cmd.Parameters.AddWithValue("@employeenumber", newteacher.EmployeeNumber);
+            cmd.Parameters.AddWithValue("@hiredate", newteacher.Hiredate); 
+            cmd.Parameters.AddWithValue("@salary", newteacher.Salary);
+            cmd.Prepare();
+
+            cmd.ExecuteNonQuery();
+            conn.Close();
+
+        }
     }
 }
