@@ -9,10 +9,10 @@
     </nav>
     <h2>New Teacher</h2>
     
-    <form action="/Teacher/Create" method="POST">
+    <form name="myform" action="/Teacher/Create" method="POST">
 
         <label style="display:block;" for="TeacherFname">First Name:</label>
-        <input type="text" id="TeacherFname" name="TeacherFname" /><span></span>
+        <input type="text" id="TeacherFname" name="TeacherFname" />
 
         <label style="display:block;" for="TeacherFname">Last Name:</label>
         <input type="text" id="TeacherLname" name="TeacherLname" />
@@ -24,19 +24,78 @@
         <input type="date" id="Hiredate" name="Hiredate" />
 
         <label style="display:block;" for="Salary">Salary Amount:</label>
-        <input type="text" id="Salary" name="Salary" />
+        <input type="text" id="Salary" name="Salary" placeholder="$" />
 
-        <input type="submit" value="Add Teacher" class="addbtn" />
+        <input type="submit" value="Add Teacher" class="addbtn" name="subbtn" />
     </form>
 
 </div>
-
 <script>
 
     window.onload = pageload;
 
     function pageload() {
-        var fname = document.getElementById("TeacherFname"); 
+        var formhandler = document.forms.myform;
+        var fname = formhandler.TeacherFname;
+        var lname = formhandler.TeacherLname;
+        var empN = formhandler.EmployeeNumber;
+        var hired = formhandler.Hiredate;
+        var sal = formhandler.Salary;
+        var subbtn = formhandler.subbtn;
+        var idregex = /^[0-9]+$/;
+
+        formhandler.onsubmit = onprocess;
+
+        function onprocess() {
+
+            if (fname.value === "") {
+                fname.style.background = "red";
+                fname.focus();
+                return false;
+            } else {
+                fname.style.background = "white";
+                console.log(fname);
+                fname.blur();
+                lname.focus();
+            }
+            if (lname.value === "") {
+                lname.style.background = "red";
+                lname.focus();
+                return false;
+            } else {
+                lname.style.background = "white";
+                lname.blur();
+                empN.focus();
+            }
+            if (empN.value === "") {
+                empN.style.background = "red";
+                empN.focus();
+                return false;
+            } else {
+                empN.style.background = "white";
+                empN.blur();
+                hired.focus();
+            }
+
+            if (hired.value === "") {
+                hired.style.background = "red";
+                hired.focus();
+                return false;
+            } else {
+                hired.style.background = "white";
+                hired.blur();
+                sal.focus();
+            }
+            if (sal.value === "" || (!idregex.test(empN.value))) {
+                sal.style.background = "red";
+                sal.focus();
+                return false;
+            } else {
+                sal.style.background = "white";
+                sal.blur();
+                subbtn.focus();
+            }
+        }
 
     }
 

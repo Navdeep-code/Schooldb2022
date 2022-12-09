@@ -8,7 +8,7 @@
     </nav>
     <h2>New Student</h2>
 
-    <form action="/Student/Create" method="POST">
+    <form name="myform" action="/Student/Create" method="POST">
 
         <label style="display:block;" for="StudentFname">First Name:</label>
         <input type="text" id="StudentFname" name="StudentFname" />
@@ -22,8 +22,67 @@
         <label style="display:block;" for="Enroldate">Enrol Date:</label>
         <input type="date" id="Enroldate" name="Enroldate" />
 
-        <input type="submit" value="Add Student" class="addbtn"  />
+        <input type="submit" value="Add Student" class="addbtn" />
     </form>
 
 </div>
+<script>
+
+    window.onload = pageload;
+
+    function pageload() {
+        var formhandler = document.forms.myform;
+        var fname = formhandler.StudentFname;
+        var lname = formhandler.StudentLname;
+        var StuN = formhandler.StudentNumber;
+        var enrd = formhandler.Enroldate;
+   
+        formhandler.onsubmit = onprocess;
+
+        function onprocess() {
+
+            if (fname.value === "") {
+                fname.style.background = "red";
+                fname.focus();
+                return false;
+            } else {
+                fname.style.background = "white";
+                console.log(fname);
+                fname.blur();
+                lname.focus();
+            }
+            if (lname.value === "") {
+                lname.style.background = "red";
+                lname.focus();
+                return false;
+            } else {
+                lname.style.background = "white";
+                lname.blur();
+                empN.focus();
+            }
+            if (StuN.value === "") {
+                StuN.style.background = "red";
+                StuN.focus();
+                return false;
+            } else {
+                StuN.style.background = "white";
+                StuN.blur();
+                enrd.focus();
+            }
+
+            if (enrd.value === "") {
+                enrd.style.background = "red";
+                enrd.focus();
+                return false;
+            } else {
+                enrd.style.background = "white";
+                enrd.blur();
+                subbtn.focus();
+            }
+         
+        }
+
+    }
+
+</script>
 

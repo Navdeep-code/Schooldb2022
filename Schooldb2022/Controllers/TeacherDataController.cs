@@ -2,6 +2,7 @@
 using Schooldb2022.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -188,6 +189,47 @@ namespace Schooldb2022.Controllers
 
             cmd.ExecuteNonQuery();
             conn.Close();
+
+        }
+
+        /// <summary>
+        /// Updates a=a Teacher information in the system
+        /// <param name="TeacherId">The id of the teacher in the system</param>
+        /// <param name="UpdatedTeacher">post content, teacher information</param>
+        /// </summary>
+        /// <example>
+        /// api/teacherdate/updateteacher/6
+        /// POST: POST CONTENT/ FORM BODY/ REQUEST BODY
+        /// {"TeacherFname":"Julia","TeacherLname":"Rogers"}
+        /// </example>
+
+        [HttpPost]
+        public void UpdateTeacher([FromBody]int TeacherId, Teacher UpdatedTeacher)
+        {
+            Debug.WriteLine("updating teacher" + TeacherId);
+            Debug.WriteLine("POST CONTENT");
+            Debug.WriteLine(UpdatedTeacher.TeacherFname);
+
+            string query = "update teachers set teacherfname=@fname, teacherlname=@lname, employeenumber=@number, hiredate=@date, salary=@salary where TeacherId=@id";
+            MySqlConnection conn = sdb.AccessDatabase();
+
+            //Open the connection between the web server and database
+            conn.Open();
+
+            //Establish a new command (query) for our database
+            MySqlCommand cmd = conn.CreateCommand();
+            cmd.CommandText = query;
+            cmd.Parameters.AddWithValue("@id", TeacherId);
+            cmd.Parameters.AddWithValue("@fname", UpdatedTeacher.TeacherFname);
+            cmd.Parameters.AddWithValue("@lname", UpdatedTeacher.TeacherLname);
+            cmd.Parameters.AddWithValue("@number", UpdatedTeacher.EmployeeNumber);
+            cmd.Parameters.AddWithValue("@date", UpdatedTeacher.Hiredate);
+            cmd.Parameters.AddWithValue("@salary", UpdatedTeacher.Salary);
+            cmd.Prepare();
+
+            cmd.ExecuteNonQuery();
+            conn.Close();
+
 
         }
     }

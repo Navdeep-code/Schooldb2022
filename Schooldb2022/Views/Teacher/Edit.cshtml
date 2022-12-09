@@ -1,0 +1,40 @@
+﻿@model Schooldb2022.Models.Teacher
+@{
+    ViewBag.Title = "Edit";
+}
+
+<div id="containershow" style="border:1px solid; padding:1em;">
+<h2>Edit</h2>
+<form method="POST" action="/Teacher/Update/@Model.TeacherId" name="myform">
+    <div>
+        <label>Teacher First Name</label>
+        <input type="text" value="@Model.TeacherFname" name="TeacherFname" />
+    </div>
+    <div>
+        <label>Teacher Last Name</label>
+        <input type="text" value="@Model.TeacherLname" name="TeacherLname" />
+    </div>
+    <div>
+        <label for="EmployeeNumber">Employee Number:</label>
+        <input type="text" value="@Model.EmployeeNumber" name="TeacherLname"  />
+    </div>
+    <div>
+        <label  for="Hiredate">Hire Date:</label>
+        <input type="text" id="Hiredate" value="@Model.Hiredate" name="Hiredate" />
+    </div>
+    <div>
+        <label  for="Salary">Salary Amount:</label>
+        <input type="text" id="Salary" value="@Model.Salary"  name="Salary" />
+    </div>
+    <input type="submit" value="Edit" class="addbtn" />
+
+</form>
+</div>
+<!---><script>
+    var formhandler = document.forms.myform;
+    var Hdate = formhandler.Hiredate.value;
+    var date = new Date(Hdate);
+    alert(Hdate);
+    Hdate.value = date;
+    
+</script>

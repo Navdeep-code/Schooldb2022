@@ -84,5 +84,36 @@ namespace Schooldb2022.Controllers
             return RedirectToAction("List");
         }
 
+        //GET: /Teacher/Edit/{id}
+        [HttpGet]
+        public ActionResult Edit(int id)
+        {
+            //i need to get the information about the teacher
+            TeacherDataController controller = new TeacherDataController();
+            Teacher selectedteacher =controller.FindTeacher(id);
+            return View(selectedteacher);
+        }
+
+        //POST: /Teacher/Update/{id}
+
+        [HttpPost]
+        public ActionResult Update(int TeacherId, string TeacherFname, string TeacherLname, string EmployeeNumber, string Hiredate, decimal Salary)
+        {
+            Debug.WriteLine(TeacherLname);
+            Debug.WriteLine(EmployeeNumber);
+                Debug.WriteLine(Hiredate);
+            Debug.WriteLine(Salary);
+                Debug.WriteLine(TeacherFname);
+
+            Teacher UpdatedTeacher=new Teacher();
+            UpdatedTeacher.TeacherFname = TeacherFname;
+            UpdatedTeacher.TeacherFname=TeacherLname;
+            UpdatedTeacher.EmployeeNumber = EmployeeNumber;
+            UpdatedTeacher.Salary = Salary;
+            UpdatedTeacher.Hiredate = Hiredate;
+            TeacherDataController controller=new TeacherDataController();
+            controller.UpdateTeacher(TeacherId,UpdatedTeacher);
+            return RedirectToAction("Show/"+TeacherId);
+        }
     }
 }
