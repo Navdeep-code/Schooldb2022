@@ -261,6 +261,7 @@
     <Content Include="Scripts\jquery-3.6.1.slim.js" />
     <Content Include="Scripts\jquery-3.6.1.slim.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\Teacher.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -287,7 +288,8 @@
     <Content Include="Views\Teacher\New.cshtml" />
     <Content Include="Views\Student\New.cshtml" />
     <Content Include="Views\Class\New.cshtml" />
-    <Content Include="Views\Teacher\Edit.cshtml" />
+    <Content Include="Views\Teacher\Update.cshtml" />
+    <Content Include="Views\Teacher\Ajax_Update.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

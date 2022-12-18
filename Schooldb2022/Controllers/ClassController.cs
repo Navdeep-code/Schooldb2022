@@ -1,8 +1,5 @@
 ﻿using Schooldb2022.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Schooldb2022.Controllers
@@ -19,14 +16,14 @@ namespace Schooldb2022.Controllers
         public ActionResult List(string SearchKey = null)
         {
             ClassDataController controller = new ClassDataController();
-            IEnumerable<Classes> listclass=controller.Listclass(SearchKey);
+            IEnumerable<Classes> listclass = controller.Listclass(SearchKey);
 
             return View(listclass);
         }
         //GET : /Class/Show/{id}
         public ActionResult Show(int id)
         {
-            ClassDataController controller=new ClassDataController();
+            ClassDataController controller = new ClassDataController();
             Classes newclass = controller.FindClass(id);
             return View(newclass);
 
@@ -59,7 +56,7 @@ namespace Schooldb2022.Controllers
         {
 
 
-           Classes newclass=new Classes();
+            Classes newclass = new Classes();
 
             newclass.ClassCode = ClassCode;
             newclass.ClassName = ClassName;

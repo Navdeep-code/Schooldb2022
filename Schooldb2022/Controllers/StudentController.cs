@@ -1,9 +1,5 @@
 ﻿using Schooldb2022.Models;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Schooldb2022.Controllers
@@ -18,9 +14,9 @@ namespace Schooldb2022.Controllers
         //GET : /Student/List
         public ActionResult List(string SearchKey = null)
         {
-            StudentDataController controller=new StudentDataController();
+            StudentDataController controller = new StudentDataController();
             IEnumerable<Students> students = controller.ListStudent(SearchKey);
-            return View(students);  
+            return View(students);
         }
 
         //GET : /Student/Show/{id}

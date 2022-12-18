@@ -3,9 +3,6 @@ using Schooldb2022.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace Schooldb2022.Controllers
@@ -27,8 +24,8 @@ namespace Schooldb2022.Controllers
         [HttpGet]
         [Route("api/TeacherData/listTeacher/{SearchKey?}")]
 
-         
-        public IEnumerable<Teacher> listTeacher(string SearchKey=null)
+
+        public IEnumerable<Teacher> listTeacher(string SearchKey = null)
         {
             //Create an instance of a connection
             MySqlConnection conn = sdb.AccessDatabase();
@@ -37,10 +34,10 @@ namespace Schooldb2022.Controllers
             conn.Open();
 
             //Establish a new command (query) for our database
-            MySqlCommand cmd =conn.CreateCommand(); 
+            MySqlCommand cmd = conn.CreateCommand();
             string query = "Select * from teachers where teacherfname like @key or teacherlname like @key or concat(teacherfname,'',teacherlname) like @key";
             cmd.CommandText = query;
-            cmd.Parameters.AddWithValue("@key", "%"+SearchKey+"%");
+            cmd.Parameters.AddWithValue("@key", "%" + SearchKey + "%");
             cmd.Prepare();
 
             //Gather Result Set of Query into a class object
@@ -55,16 +52,16 @@ namespace Schooldb2022.Controllers
                 string TeacherLname = Resultset["teacherlname"].ToString();
                 string EmployeeNumber = Resultset["employeenumber"].ToString();
                 string Hiredate = Resultset["hiredate"].ToString();
-                decimal Salary =Convert.ToDecimal( Resultset["salary"]);
+                decimal Salary = Convert.ToDecimal(Resultset["salary"]);
 
                 Teacher newteacher = new Teacher();
-                newteacher.TeacherId = TeacherId;   
-                newteacher.TeacherFname = TeacherFname; 
-                newteacher.TeacherLname = TeacherLname; 
-                newteacher.EmployeeNumber = EmployeeNumber; 
-                newteacher.Hiredate = Hiredate;
+                newteacher.TeacherId = TeacherId;
+                newteacher.TeacherFname = TeacherFname;
+                newteacher.TeacherLname = TeacherLname;
+                newteacher.EmployeeNumber = EmployeeNumber;
+                newteacher.Hiredate = Convert.ToDateTime(Hiredate);
                 newteacher.Salary = Salary;
-                    
+
 
 
                 teacherlist.Add(newteacher);
@@ -83,10 +80,10 @@ namespace Schooldb2022.Controllers
         /// </summary>
         /// <param name="id">the teacher's ID in the database</param>
         /// <returns>teacher object</returns>
-       
+
         [HttpGet]
-     
-        public  Teacher FindTeacher(int id)
+
+        public Teacher FindTeacher(int id)
         {
             Teacher newteacher = new Teacher();
 
@@ -120,12 +117,12 @@ namespace Schooldb2022.Controllers
                 newteacher.TeacherFname = TeacherFname;
                 newteacher.TeacherLname = TeacherLname;
                 newteacher.EmployeeNumber = EmployeeNumber;
-                newteacher.Hiredate = Hiredate;
+                newteacher.Hiredate = Convert.ToDateTime(Hiredate);
                 newteacher.Salary = Salary;
-                newteacher.Course= Course;  
+                newteacher.Course = Course;
 
             }
-           
+
             return newteacher;
 
         }
@@ -148,7 +145,7 @@ namespace Schooldb2022.Controllers
             cmd.CommandText = "Delete from teachers where teacherid=@id";
             cmd.Parameters.AddWithValue("@id", id);
             cmd.Prepare();
-            
+
             cmd.ExecuteNonQuery();
             conn.Close();
 
@@ -169,7 +166,7 @@ namespace Schooldb2022.Controllers
         /// }
         /// </example>
         [HttpPost]
-        public  void AddTeacher([FromBody]Teacher newteacher)
+        public void AddTeacher([FromBody] Teacher newteacher)
         {
             //Create an instance of a connection
             MySqlConnection conn = sdb.AccessDatabase();
@@ -183,7 +180,7 @@ namespace Schooldb2022.Controllers
             cmd.Parameters.AddWithValue("@teacherfname", newteacher.TeacherFname);
             cmd.Parameters.AddWithValue("@teacherlname", newteacher.TeacherLname);
             cmd.Parameters.AddWithValue("@employeenumber", newteacher.EmployeeNumber);
-            cmd.Parameters.AddWithValue("@hiredate", newteacher.Hiredate); 
+            cmd.Parameters.AddWithValue("@hiredate", newteacher.Hiredate);
             cmd.Parameters.AddWithValue("@salary", newteacher.Salary);
             cmd.Prepare();
 
@@ -204,9 +201,9 @@ namespace Schooldb2022.Controllers
         /// </example>
 
         [HttpPost]
-        public void UpdateTeacher([FromBody]int TeacherId, Teacher UpdatedTeacher)
+        public void UpdateTeacher([FromBody] int Id, Teacher UpdatedTeacher)
         {
-            Debug.WriteLine("updating teacher" + TeacherId);
+            Debug.WriteLine("updating teacher" + Id);
             Debug.WriteLine("POST CONTENT");
             Debug.WriteLine(UpdatedTeacher.TeacherFname);
 
@@ -219,7 +216,7 @@ namespace Schooldb2022.Controllers
             //Establish a new command (query) for our database
             MySqlCommand cmd = conn.CreateCommand();
             cmd.CommandText = query;
-            cmd.Parameters.AddWithValue("@id", TeacherId);
+            cmd.Parameters.AddWithValue("@id", Id);
             cmd.Parameters.AddWithValue("@fname", UpdatedTeacher.TeacherFname);
             cmd.Parameters.AddWithValue("@lname", UpdatedTeacher.TeacherLname);
             cmd.Parameters.AddWithValue("@number", UpdatedTeacher.EmployeeNumber);

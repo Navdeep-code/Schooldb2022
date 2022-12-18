@@ -1,26 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using MySql.Data.MySqlClient;
+﻿using MySql.Data.MySqlClient;
 
 namespace Schooldb2022.Models
 {
     public class SchooldbContext
     {
-      private static string User { get { return "root";} }
+        private static string User { get { return "root"; } }
 
-      private static string Password { get { return "root"; } }
+        private static string Password { get { return "root"; } }
 
-      private static string Database { get { return "school"; } }
+        private static string Database { get { return "school"; } }
 
-      private static string Server { get { return "localhost"; } }
+        private static string Server { get { return "localhost"; } }
 
-      private static string Port { get { return "3306"; } }
+        private static string Port { get { return "3306"; } }
 
         //ConnectionString is a series of credentials used to connect to the database.
-        protected static string ConnectionString { get
+        protected static string ConnectionString
+        {
+            get
             {
                 return "server = " + Server
                     + "; user = " + User
@@ -28,7 +25,8 @@ namespace Schooldb2022.Models
                     + "; port = " + Port
                     + "; password = " + Password
                     + "; convert zero datetime = True";
-       } }
+            }
+        }
         /// <summary>
         /// Returns a connection to the school database.
         /// </summary>
@@ -42,5 +40,5 @@ namespace Schooldb2022.Models
             return new MySqlConnection(ConnectionString);
         }
     }
-   
+
 }

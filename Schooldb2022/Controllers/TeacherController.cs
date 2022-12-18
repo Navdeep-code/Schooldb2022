@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Schooldb2022.Controllers
@@ -60,7 +58,7 @@ namespace Schooldb2022.Controllers
 
         //POST :/Teacher/Create
         [HttpPost]
-        public ActionResult Create(string TeacherFname, string TeacherLname,string EmployeeNumber, string Hiredate, decimal Salary)
+        public ActionResult Create(string TeacherFname, string TeacherLname, string EmployeeNumber, string Hiredate, decimal Salary)
         {
 
             Debug.WriteLine("I have access");
@@ -70,50 +68,93 @@ namespace Schooldb2022.Controllers
             Debug.WriteLine(Hiredate);
             Debug.WriteLine(Salary);
 
-            Teacher newteacher=new Teacher();
+            Teacher newteacher = new Teacher();
 
             newteacher.TeacherFname = TeacherFname;
             newteacher.TeacherLname = TeacherLname;
             newteacher.EmployeeNumber = EmployeeNumber;
-            newteacher.Hiredate = Hiredate;
+            newteacher.Hiredate = Convert.ToDateTime(Hiredate);
             newteacher.Salary = Salary;
 
-            TeacherDataController controller=new TeacherDataController();
+            TeacherDataController controller = new TeacherDataController();
             controller.AddTeacher(newteacher);
-                
+
             return RedirectToAction("List");
         }
 
         //GET: /Teacher/Edit/{id}
         [HttpGet]
-        public ActionResult Edit(int id)
+        public ActionResult Update(int id)
         {
             //i need to get the information about the teacher
             TeacherDataController controller = new TeacherDataController();
-            Teacher selectedteacher =controller.FindTeacher(id);
+            Teacher selectedteacher = controller.FindTeacher(id);
+            return View(selectedteacher);
+        }
+
+        public ActionResult Ajax_Update(int id)
+        {
+            //i need to get the information about the teacher
+            TeacherDataController controller = new TeacherDataController();
+            Teacher selectedteacher = controller.FindTeacher(id);
             return View(selectedteacher);
         }
 
         //POST: /Teacher/Update/{id}
 
         [HttpPost]
-        public ActionResult Update(int TeacherId, string TeacherFname, string TeacherLname, string EmployeeNumber, string Hiredate, decimal Salary)
+        public ActionResult Update(int Id, string TeacherFname, string TeacherLname, string EmployeeNumber, string Hiredate, decimal Salary)
         {
             Debug.WriteLine(TeacherLname);
-            Debug.WriteLine(EmployeeNumber);
-                Debug.WriteLine(Hiredate);
-            Debug.WriteLine(Salary);
-                Debug.WriteLine(TeacherFname);
+           // Debug.WriteLine(EmployeeNumber);
+           // Debug.WriteLine(Hiredate);
+            //Debug.WriteLine(Salary);
+           // Debug.WriteLine(TeacherFname);
 
-            Teacher UpdatedTeacher=new Teacher();
-            UpdatedTeacher.TeacherFname = TeacherFname;
-            UpdatedTeacher.TeacherFname=TeacherLname;
-            UpdatedTeacher.EmployeeNumber = EmployeeNumber;
-            UpdatedTeacher.Salary = Salary;
-            UpdatedTeacher.Hiredate = Hiredate;
-            TeacherDataController controller=new TeacherDataController();
-            controller.UpdateTeacher(TeacherId,UpdatedTeacher);
-            return RedirectToAction("Show/"+TeacherId);
+            //Server-Side rendering validation
+            if (TeacherFname=="" || TeacherLname=="" || EmployeeNumber=="" || Hiredate==""|| Salary.Equals(null))
+            {
+                if (TeacherFname=="")
+                {
+                    ViewData["ErrorFname"] = "*Please fill in the FirstName";
+                }
+                if (TeacherLname=="")
+                {
+                    ViewData["ErrorLname"] = "*Please fill in the LastName";
+             
+                }
+                if (EmployeeNumber=="")
+                {
+                    ViewData["ErrorEnum"] = "*Please fill in the Employee Number";
+                }
+                if (Hiredate=="")
+                {
+                    ViewData["ErrorHdate"] = "*Please fill in the Hire Date";
+                }
+                if (Salary.Equals(null))
+                {
+                    ViewData["ErrorSal"] = "*Please fill in the Salary";
+                }
+                TeacherDataController controller = new TeacherDataController();
+                Teacher selectedteacher = controller.FindTeacher(Id);
+                return View(selectedteacher);
+            }
+            else
+            {
+                //Else Update the teacher data
+
+                Teacher UpdatedTeacher = new Teacher();
+                UpdatedTeacher.TeacherFname = TeacherFname;
+                UpdatedTeacher.TeacherLname = TeacherLname;
+                UpdatedTeacher.EmployeeNumber = EmployeeNumber;
+                UpdatedTeacher.Salary = Salary;
+                UpdatedTeacher.Hiredate = Convert.ToDateTime(Hiredate);
+                TeacherDataController controller = new TeacherDataController();
+                controller.UpdateTeacher(Id, UpdatedTeacher);
+                return RedirectToAction("Show/" + Id);
+            }
+
+
         }
     }
 }

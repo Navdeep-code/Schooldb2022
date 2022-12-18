@@ -2,9 +2,6 @@
 using Schooldb2022.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace Schooldb2022.Controllers
@@ -42,7 +39,7 @@ namespace Schooldb2022.Controllers
             List<Classes> classlist = new List<Classes>();
 
             //Gather Result Set of Query into a class object
-            MySqlDataReader resultset =cmd.ExecuteReader();
+            MySqlDataReader resultset = cmd.ExecuteReader();
             while (resultset.Read())
             {
                 Classes newclass = new Classes();
@@ -69,32 +66,32 @@ namespace Schooldb2022.Controllers
         public Classes FindClass(int id)
         {
             //Create an instance of a connection
-            MySqlConnection conn =sdb.AccessDatabase();
+            MySqlConnection conn = sdb.AccessDatabase();
 
             //Open the connection between the web server and database
             conn.Open();
 
             //Establish a new command (query) for our database
-            MySqlCommand cmd =conn.CreateCommand();
+            MySqlCommand cmd = conn.CreateCommand();
             cmd.CommandText = "SELECT * from classes where classid=@id";
             cmd.Parameters.AddWithValue("@id", id);
             cmd.Prepare();
 
             //Gather Result Set of Query into a class object
-            MySqlDataReader Resultset =cmd.ExecuteReader();
+            MySqlDataReader Resultset = cmd.ExecuteReader();
             Classes newclass = new Classes();
 
-        
+
             while (Resultset.Read())
             {
-                
-                newclass.ClassName = Resultset["classname"].ToString() ;
+
+                newclass.ClassName = Resultset["classname"].ToString();
                 newclass.ClassCode = Resultset["classcode"].ToString();
                 newclass.StartDate = Resultset["startdate"].ToString();
                 newclass.FinishDate = Resultset["finishdate"].ToString();
-   
 
-              
+
+
             }
             //close Connection
             conn.Close();

@@ -1,8 +1,8 @@
+using Schooldb2022.Areas.HelpPage.ModelDescriptions;
+using Schooldb2022.Areas.HelpPage.Models;
 using System;
 using System.Web.Http;
 using System.Web.Mvc;
-using Schooldb2022.Areas.HelpPage.ModelDescriptions;
-using Schooldb2022.Areas.HelpPage.Models;
 
 namespace Schooldb2022.Areas.HelpPage.Controllers
 {

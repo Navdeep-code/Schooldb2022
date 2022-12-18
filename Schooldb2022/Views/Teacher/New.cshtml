@@ -11,20 +11,25 @@
     
     <form name="myform" action="/Teacher/Create" method="POST">
 
-        <label style="display:block;" for="TeacherFname">First Name:</label>
+        <label style="display:block;" for="TeacherFname" >First Name:</label>
         <input type="text" id="TeacherFname" name="TeacherFname" />
+        <span style="color:red;" id="LFname"></span>
 
-        <label style="display:block;" for="TeacherFname">Last Name:</label>
+        <label style="display:block;" for="TeacherFname" >Last Name:</label>
         <input type="text" id="TeacherLname" name="TeacherLname" />
+        <span style="color:red;" id="LLname" ></span>
 
-        <label style="display:block;" for="EmployeeNumber">Employee Number:</label>
+        <label style="display:block;" for="EmployeeNumber" >Employee Number:</label>
         <input type="text" id="EmployeeNumber" name="EmployeeNumber" />
+        <span style="color:red;" id="LENum"></span>
 
-        <label style="display:block;" for="Hiredate">Hire Date:</label>
+        <label style="display:block;" for="Hiredate" >Hire Date:</label>
         <input type="date" id="Hiredate" name="Hiredate" />
+        <span style="color:red;" id="LHdate" ></span>
 
-        <label style="display:block;" for="Salary">Salary Amount:</label>
+        <label style="display:block;" for="Salary" >Salary Amount:</label>
         <input type="text" id="Salary" name="Salary" placeholder="$" />
+        <span style="color:red;" id="Lsal"></span>
 
         <input type="submit" value="Add Teacher" class="addbtn" name="subbtn" />
     </form>
@@ -35,7 +40,13 @@
     window.onload = pageload;
 
     function pageload() {
+       
         var formhandler = document.forms.myform;
+        var LFname = document.getElementById("LFname");  
+        var LLname = document.getElementById("LLname"); 
+        var LENum = document.getElementById("LENum"); 
+        var LHdate = document.getElementById("LHdate"); 
+        var Lsal = document.getElementById("Lsal"); 
         var fname = formhandler.TeacherFname;
         var lname = formhandler.TeacherLname;
         var empN = formhandler.EmployeeNumber;
@@ -49,49 +60,48 @@
         function onprocess() {
 
             if (fname.value === "") {
-                fname.style.background = "red";
+                LFname.innerHTML = "*Please fill the First Name";
                 fname.focus();
                 return false;
             } else {
-                fname.style.background = "white";
-                console.log(fname);
+                LFname.innerHTML = "";
                 fname.blur();
                 lname.focus();
             }
             if (lname.value === "") {
-                lname.style.background = "red";
+                LLname.innerHTML = "*Please fill the Last Name";
                 lname.focus();
                 return false;
             } else {
-                lname.style.background = "white";
+                LLname.innerHTML = "";
                 lname.blur();
                 empN.focus();
             }
             if (empN.value === "") {
-                empN.style.background = "red";
+                LENum.innerHTML = "*Please fill the Employee Number";
                 empN.focus();
                 return false;
             } else {
-                empN.style.background = "white";
+                LENum.innerHTML = "";
                 empN.blur();
                 hired.focus();
             }
 
             if (hired.value === "") {
-                hired.style.background = "red";
+                LHdate.innerHTML = "*Please fill the Hire Date";
                 hired.focus();
                 return false;
             } else {
-                hired.style.background = "white";
+                LHdate.innerHTML = "";
                 hired.blur();
                 sal.focus();
             }
             if (sal.value === "" || (!idregex.test(empN.value))) {
-                sal.style.background = "red";
+                Lsal.innerHTML ="*Please fill the Salary"
                 sal.focus();
                 return false;
             } else {
-                sal.style.background = "white";
+                Lsal.innerHTML = ""
                 sal.blur();
                 subbtn.focus();
             }

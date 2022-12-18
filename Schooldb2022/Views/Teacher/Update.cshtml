@@ -1,0 +1,33 @@
+﻿@model Schooldb2022.Models.Teacher
+@{
+    ViewBag.Title = "Update";
+}
+
+<div id="containershow" style="border:1px solid; padding:1em;">
+<h2>Edit</h2>
+<form method="POST" action="/Teacher/Update/@Model.TeacherId" name="myform">
+ 
+    <div>
+        <label>Teacher First Name</label>
+        <input type="text" value="@Model.TeacherFname" name="TeacherFname" /><span style="color:red;">@ViewData["ErrorFname"]</span>
+    </div>
+    <div>
+        <label>Teacher Last Name</label>
+        <input type="text" value="@Model.TeacherLname" name="TeacherLname" /><span style="color:red;">@ViewData["ErrorLname"]</span>
+    </div>
+    <div>
+        <label for="EmployeeNumber">Employee Number:</label>
+        <input type="text" value="@Model.EmployeeNumber" name="EmployeeNumber" /><span style="color:red;">@ViewData["ErrorEnum"]</span>
+    </div>
+    <div>
+        <label for="Hiredate">Hire Date:</label>
+        <input type="text" id="Hiredate" value="@Model.Hiredate" name="Hiredate" /><span style="color:red;">@ViewData["ErrorHdate"]</span>
+    </div>
+    <div>
+        <label for="Salary">Salary Amount:</label>
+        <input type="text" id="Salary" value="@Model.Salary" name="Salary" /><span style="color:red;">@ViewData["ErrorSal"]</span>
+    </div>
+    <input type="submit" value="Edit" class="addbtn" />
+
+</form>
+</div>

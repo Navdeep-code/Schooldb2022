@@ -1,16 +1,12 @@
-﻿using Schooldb2022.Models;
+﻿using MySql.Data.MySqlClient;
+using Schooldb2022.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
-using MySql.Data.MySqlClient;
-using System.Diagnostics;
 
 namespace Schooldb2022.Controllers
 {
-    public class StudentDataController : ApiController  
+    public class StudentDataController : ApiController
     {
         // The database context class which allows us to access our MySQL Database.
         private SchooldbContext sdb = new SchooldbContext();
@@ -26,7 +22,7 @@ namespace Schooldb2022.Controllers
         [HttpGet]
         [Route("api/StudentData/ListStudent/{searchkey?}")]
         public IEnumerable<Students> ListStudent(string Searchkey = null)
-        {  
+        {
             //Create an instance of a connection
             MySqlConnection conn = sdb.AccessDatabase();
 
@@ -34,23 +30,23 @@ namespace Schooldb2022.Controllers
             conn.Open();
 
             //Establish a new command (query) for our database
-            MySqlCommand cmd =conn.CreateCommand();
+            MySqlCommand cmd = conn.CreateCommand();
             cmd.CommandText = "Select * from students where studentfname like @key or studentlname like @key or concat(studentfname,' ',studentlname) like @key";
-            cmd.Parameters.AddWithValue("@key", "%"+Searchkey+"%");
+            cmd.Parameters.AddWithValue("@key", "%" + Searchkey + "%");
             cmd.Prepare();
 
             //Gather Result Set of Query into a class object
-            MySqlDataReader Resultset =cmd.ExecuteReader();
+            MySqlDataReader Resultset = cmd.ExecuteReader();
             List<Students> studentlist = new List<Students>();
             while (Resultset.Read())
             {
                 int StudentId = Convert.ToInt32(Resultset["studentid"]);
                 string StudentFname = Resultset["studentfname"].ToString();
                 string StudentLname = Resultset["studentlname"].ToString();
-                string StudentNumber= Resultset["studentnumber"].ToString() ;
+                string StudentNumber = Resultset["studentnumber"].ToString();
                 string Enroldate = Resultset["enroldate"].ToString();
 
-                Students newstudent=new Students();
+                Students newstudent = new Students();
                 newstudent.StudentId = StudentId;
                 newstudent.StudentFname = StudentFname;
                 newstudent.StudentLname = StudentLname;
@@ -58,12 +54,12 @@ namespace Schooldb2022.Controllers
                 newstudent.Enroldate = Enroldate;
 
                 studentlist.Add(newstudent);
-               
-    }
+
+            }
             //close connection
             conn.Close();
-            return studentlist; 
-}
+            return studentlist;
+        }
 
 
         /// <summary>
@@ -72,8 +68,8 @@ namespace Schooldb2022.Controllers
         /// <param name="id">the student ID in the database</param>
         /// <returns>student object</returns>
         [HttpGet]
-            public Students FindStudent(int id)
-            {
+        public Students FindStudent(int id)
+        {
             Students newstudent = new Students();
 
             //Create an instance of a connection
@@ -112,16 +108,16 @@ namespace Schooldb2022.Controllers
             //Establish a new command (query) for our database
             MySqlCommand cm = con.CreateCommand();
             cm.CommandText = "SELECT classes.classname FROM students LEFT OUTER join studentsxclasses on studentsxclasses.studentid=students.studentid join classes on classes.classid=studentsxclasses.classid where students.studentid=@studentid";
-            cm.Parameters.AddWithValue("@studentid",id);
+            cm.Parameters.AddWithValue("@studentid", id);
             cm.Prepare();
             List<string> list = new List<string>();
 
             //Gather Result Set of Query into a class object
             Resultset = cm.ExecuteReader();
-           
 
-                while (Resultset.Read())
-                {
+
+            while (Resultset.Read())
+            {
 
                 //if their is courses data
                 if (Resultset["classname"] != null)
@@ -136,15 +132,15 @@ namespace Schooldb2022.Controllers
                     list.Add(msg);
                 }
 
-                }
+            }
 
-                newstudent.Courses = list;
-           
+            newstudent.Courses = list;
+
             //close connection
             con.Close();
-            
+
             return newstudent;
-            }
+        }
 
         /// <summary>
         /// takes the student id and deleted that student from the database
@@ -208,7 +204,7 @@ namespace Schooldb2022.Controllers
 
         }
     }
-    
 
-    }
+
+}
 

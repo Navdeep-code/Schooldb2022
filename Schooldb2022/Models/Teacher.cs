@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace Schooldb2022.Models
 {
@@ -13,7 +10,7 @@ namespace Schooldb2022.Models
         public string TeacherLname;
         public string EmployeeNumber;
         public decimal Salary;
-        public string Hiredate;
+        public DateTime Hiredate;
         public string Course;
 
         public Teacher() { }
